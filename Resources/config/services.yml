@@ -23,11 +23,15 @@ services:
         arguments:
             - @eltrino_amazon.client_rest_client_factory
             - @eltrino_amazon.filters.factory
+        calls:
+            - [setLogger, [@logger]]
         tags:
             - { name: oro_integration.transport, type: amazon_rest, channel_type: amazon}
 
     eltrino_amazon.client_rest_client_factory:
         class: %eltrino_amazon.client.rest_client_factory.class%
+        calls:
+            - [setLogger, [@logger]]
 
    # providers
     eltrino_amazon.provider.amazon_channel_type:
@@ -43,6 +47,8 @@ services:
 
     eltrino_amazon.order.factory:
         class: %eltrino_amazon.order.factory.class%
+        arguments:
+            - @doctrine.orm.entity_manager
 
     eltrino_amazon.filters.factory:
         class: %eltrino_amazon.filters.factory_class%
